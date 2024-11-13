@@ -1,0 +1,111 @@
+/* Fondo geométrico */
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #6e8efb, #a777e3);
+  font-family: Arial, sans-serif;
+  margin: 0;
+}
+
+/* Caja de recuperación de contraseña */
+.forgot-password-container {
+  width: 100%;
+  max-width: 350px; /* Ajuste de ancho máximo */
+  padding: 40px; /* Ajuste de padding para mayor simetría */
+  background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco con 90% de opacidad */
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  position: relative;
+  text-align: center;
+}
+
+.forgot-password-box h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: #333;
+  font-weight: bold;
+}
+
+/* Campos de entrada */
+.input-group {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 12px 15px 12px 45px; /* Espacio para el ícono a la izquierda */
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  font-size: 1rem;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: #6e8efb;
+  outline: none;
+}
+
+.input-icon {
+  position: absolute;
+  left: 15px; /* Ícono alineado a la izquierda */
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  color: #aaa;
+}
+
+/* Botones de envío y volver */
+.button-container button {
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  background-color: #6e8efb;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  margin-bottom: 15px;
+}
+
+.button-container button:hover {
+  background-color: #5a7de1;
+  transform: translateY(-2px);
+}
+
+.button-container button:active {
+  background-color: #4a6fc1;
+}
+
+.button-container .back-button {
+  background-color: transparent;
+  color: #6e8efb;
+  border: 1px solid #6e8efb;
+  padding: 10px;
+  font-size: 0.9rem;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.button-container .back-button:hover {
+  background-color: #6e8efb;
+  color: white;
+}
+
+/* Mensajes de error y éxito */
+.error-message {
+  color: red;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+
+.success-message {
+  color: green;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}

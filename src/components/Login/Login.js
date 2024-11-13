@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import '../Styles/Login.css'; 
 
 const Login = () => {
@@ -30,29 +30,33 @@ const Login = () => {
                 contrasena: password,
             });
 
-            const { Token, Usuario } = response.data;
-            localStorage.setItem('token', Token);
+            if (response && response.data) {
+                const { Token, Usuario } = response.data;
+                localStorage.setItem('token', Token);
 
-            if (Usuario.tipo === 'Estudiante') {
-                navigate('/dashboard-estudiante');
-            } else if (Usuario.tipo === 'Docente') {
-                navigate('/dashboard-docente');
+                if (Usuario.tipo === 'Estudiante') {
+                    navigate('/dashboard-estudiante');
+                } else if (Usuario.tipo === 'Docente') {
+                    navigate('/dashboard-docente');
+                } else {
+                    navigate('/dashboard');
+                }
+
+                console.log('Login successful:', response.data);
             } else {
-                navigate('/dashboard');
+                setError('Error en el inicio de sesión. Por favor, inténtelo de nuevo.');
+                console.error('Login failed: response data is undefined');
             }
-
-            console.log('Login successful:', response.data);
         } catch (error) {
             setError('Error en el inicio de sesión. Por favor, inténtelo de nuevo.');
-            console.error('Login failed:', error.response.data);
+            console.error('Login failed:', error);
         }
     };
-
 
     return (
         <div className="login-container">
             <div className="login-box">
-                <h2>Sign in to start your session</h2>
+                <h2>Inicio de Sesion</h2>
                 {error && <p className="error-message">{error}</p>}
                 <form onSubmit={handleSubmit}>
                     <div className="input-group">
@@ -79,6 +83,13 @@ const Login = () => {
                     </div>
                     <div className="button-container">
                         <button type="submit">Sign In</button>
+                    </div>
+                    
+                    <div className="button-container">
+                        <div className="or-separator">- OR -</div>
+                        <Link to="/recuperar-contrasena">
+                            <button type="button">Olvidé la Contraseña</button>
+                        </Link>
                     </div>
                 </form>
             </div>

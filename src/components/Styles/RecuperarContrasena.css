@@ -9,8 +9,8 @@ body {
   margin: 0;
 }
 
-/* Caja de login */
-.login-container {
+/* Caja de recuperación de contraseña */
+.forgot-password-container {
   width: 100%;
   max-width: 350px;
   padding: 40px;
@@ -21,7 +21,7 @@ body {
   text-align: center;
 }
 
-.login-container h2 {
+.forgot-password-container h2 {
   font-size: 1.8rem;
   color: #333;
   font-weight: bold;
@@ -52,7 +52,7 @@ body {
   color: #aaa;
 }
 
-/* Botón de inicio de sesión */
+/* Botón de recuperación de contraseña */
 .button-container button {
   width: 100%;
   padding: 12px;
@@ -78,7 +78,7 @@ body {
   margin: 10px 0;
 }
 
-/* Enlace de recuperación de contraseña */
+/* Enlace para volver al login */
 .links a {
   color: #0288d1;
   font-size: 0.9rem;

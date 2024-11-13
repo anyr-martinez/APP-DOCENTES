@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Estudiantes = () => {
+const Estudiante = () => {
     return (
         <div>
             <h2>Dashboard del Estudiante</h2>
@@ -9,4 +9,4 @@ const Estudiantes = () => {
     );
 }
 
-export default Estudiantes;
+export default Estudiante;

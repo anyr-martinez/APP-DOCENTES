@@ -1,13 +1,13 @@
 import axios from 'axios';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../Styles/Login.css';
+import '../Styles/Login.css'; 
 
 const Login = () => {
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
     const navigate = useNavigate();
+    const [error, setError] = useState('');
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -19,14 +19,14 @@ const Login = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        if (!username || !password) {
+        if (!email || !password) {
             setError('Por favor, complete todos los campos.');
             return;
         }
 
         try {
             const response = await axios.post('https://0zqb1tjz-3002.use.devtunnels.ms/api/usuarios/iniciar_sesion', {
-                login: username,
+                login: email,
                 contrasena: password,
             });
 
@@ -48,46 +48,40 @@ const Login = () => {
         }
     };
 
+
     return (
-        <div className="login-form">
-            <h2>Login</h2>
-            {error && <p className="error-message">{error}</p>}
-            <form onSubmit={handleSubmit}>
-                <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
-                        Username
-                    </label>
-                    <input
-                        className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
-                        id="username"
-                        type="text"
-                        value={username}
-                        onChange={(event) => setUsername(event.target.value)}
-                        autoComplete="username"
-                    />
-                </div>
-                <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
-                        Password
-                    </label>
-                    <input
-                        className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
-                        id="password"
-                        type="password"
-                        value={password}
-                        onChange={(event) => setPassword(event.target.value)}
-                        autoComplete="current-password"
-                    />
-                </div>
-                <div className="button-container">
-                    <button
-                        className="submit-button"
-                        type="submit"
-                    >
-                        Login
-                    </button>
-                </div>
-            </form>
+        <div className="login-container">
+            <div className="login-box">
+                <h2>Sign in to start your session</h2>
+                {error && <p className="error-message">{error}</p>}
+                <form onSubmit={handleSubmit}>
+                    <div className="input-group">
+                        <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            autoComplete="username"
+                        />
+                        <span className="input-icon">@</span>
+                    </div>
+                    <div className="input-group">
+                        <input
+                            type="password"
+                            className="form-control"
+                            placeholder="Password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            autoComplete="current-password"
+                        />
+                        <span className="input-icon">🔒</span>
+                    </div>
+                    <div className="button-container">
+                        <button type="submit">Sign In</button>
+                    </div>
+                </form>
+            </div>
         </div>
     );
 };

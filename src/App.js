@@ -4,6 +4,7 @@ import Docente from './components/Docentes/Docentes';
 import Estudiante from './components/Estudiantes/Estudiantes';
 import Login from './components/Login/Login';
 import RecuperarContrasena from './components/Login/RecuperarContrasena/RecuperarContrasena';
+import RegistroEstudiante from './components/Login/RegistroEstudiante/RegistroEstudiante';
 
 const App = () => {
   return (
@@ -12,6 +13,7 @@ const App = () => {
         <Route path="/" element={<Login />} />
         <Route path="recuperar-contrasena" element = {<RecuperarContrasena />} />
         <Route path="/dashboard-estudiante" element={<Estudiante />} />
+        <Route path="/registro-estudiante" element={<RegistroEstudiante />} />
         <Route path="/dashboard-docente" element={<Docente />} />
       </Routes>
     </Router>

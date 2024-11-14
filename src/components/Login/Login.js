@@ -1,7 +1,11 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import '../Styles/Login.css'; 
+import fondo from '../../assets/images/fondo.jpg';
+import '../Styles/Login.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLock, faEnvelope} from '@fortawesome/free-solid-svg-icons';
+
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -53,48 +57,54 @@ const Login = () => {
         }
     };
 
-    return (
-        <div className="login-container">
-            <div className="login-box">
-                <h2>Inicio de Sesion</h2>
-                {error && <p className="error-message">{error}</p>}
-                <form onSubmit={handleSubmit}>
-                    <div className="input-group">
-                        <input
-                            type="text"
-                            className="form-control"
-                            placeholder="Email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            autoComplete="username"
-                        />
-                        <span className="input-icon">@</span>
-                    </div>
-                    <div className="input-group">
-                        <input
-                            type="password"
-                            className="form-control"
-                            placeholder="Password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            autoComplete="current-password"
-                        />
-                        <span className="input-icon">🔒</span>
-                    </div>
-                    <div className="button-container">
-                        <button type="submit">Sign In</button>
-                    </div>
-                    
-                    <div className="button-container">
-                        <div className="or-separator">- OR -</div>
-                        <Link to="/recuperar-contrasena">
-                            <button type="button">Olvidé la Contraseña</button>
-                        </Link>
-                    </div>
-                </form>
+return(
+    <div className="login-container" style={{ backgroundImage: `url(${fondo})`, backgroundSize: 'cover', backgroundPosition: 'center', height: '100vh' }}>
+    <div className="login-box">
+        <h2>Inicio de Sesión</h2>
+        {error && <p className="error-message">{error}</p>}
+        <form onSubmit={handleSubmit}>
+            <div className="input-group">
+                <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    autoComplete="username"
+                />
+                <span className="input-icon"><FontAwesomeIcon icon={faEnvelope} /></span>
+                
             </div>
-        </div>
-    );
+            <div className="input-group">
+                <input
+                    type="password"
+                    className="form-control"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    autoComplete="current-password"
+                />
+                <span className="input-icon"><FontAwesomeIcon icon={faLock} /></span>
+                    
+            </div>
+            <div className="button-container">
+                <button type="submit">Sign In</button>
+            </div>
+            <div className="button-container">
+                <div className="or-separator">- OR -</div>
+                <Link to="/recuperar-contrasena">
+                    <button type="button">Olvidé la Contraseña</button>
+                </Link>
+            </div>
+            <div className="button-container">
+                        <Link to="/registro-estudiante">Crear Cuenta</Link>
+            </div>
+        </form>
+    </div>
+</div>
+
+);
+    
 };
 
 export default Login;

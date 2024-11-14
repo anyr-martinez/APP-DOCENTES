@@ -1,6 +1,5 @@
 import React from 'react';
-import '../Styles/Estudiante.scss';
-
+import '../Styles/Estudiante.scss'
 const Estudiante = () => {
     return (
         <div className="dashboard-container">
@@ -37,13 +36,13 @@ const Estudiante = () => {
                                 </a>
                             </li>
                             <li className="nav-item menu-open">
-                                <a href="#" className="nav-link">
+                                <button className="nav-link" style={{ background: 'none', border: 'none', padding: 0, textAlign: 'left' }}>
                                     <i className="nav-icon bi bi-book"></i>
                                     <p>
                                         Mis Cursos
                                         <i className="nav-arrow bi bi-chevron-right"></i>
                                     </p>
-                                </a>
+                                </button>
                                 <ul className="nav nav-treeview">
                                     <li className="nav-item">
                                         <a href="/curso-1" className="nav-link">

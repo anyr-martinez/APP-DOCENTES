@@ -1,7 +1,10 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import fondo from '../../../assets/images/fondo.jpg';   
 import '../../Styles/RecuperarContrasena.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLock, faEnvelope, faKey} from '@fortawesome/free-solid-svg-icons';
 
 const RecuperarContrasena = () => {
     const [recoveryEmail, setRecoveryEmail] = useState('');
@@ -78,28 +81,29 @@ const RecuperarContrasena = () => {
     };
 
     return (
-        <div className="forgot-password-container">
+        <div className="forgot-password-container" style={{ backgroundImage: `url(${fondo})`, backgroundSize: 'cover', backgroundPosition: 'center', height: '100vh' }} >
             <div className="forgot-password-box">
                 <h2>{step === 1 ? 'Recuperar Contraseña' : 'Actualizar Contraseña'}</h2>
                 {error && <p className="error-message">{error}</p>}
                 {message && <p className="success-message">{message}</p>}
                 {step === 1 ? (
                     <form onSubmit={handleRecuperarContrasena}>
-                        <div className="input-group">
-                            <input
-                                type="text"
-                                className="form-control"
-                                placeholder="Correo Electrónico"
-                                value={recoveryEmail}
-                                onChange={(e) => setRecoveryEmail(e.target.value)}
-                                autoComplete="email"
-                            />
-                            <span className="input-icon">@</span>
-                        </div>
-                        <div className="button-container">
-                            <button type="submit">Enviar</button>
-                        </div>
-                    </form>
+                    <div className="input-group email-container">
+                        <input
+                            type="text"
+                            className="form-control email-input"
+                            placeholder="Correo Electrónico"
+                            value={recoveryEmail}
+                            onChange={(e) => setRecoveryEmail(e.target.value)}
+                            autoComplete="email"
+                        />
+                        <span className="input-icon"><FontAwesomeIcon icon={faEnvelope}/></span>
+                        
+                    </div>
+                    <div className="button-container">
+                        <button type="submit">Enviar</button>
+                    </div>
+                </form>
                 ) : (
                     <form onSubmit={handleActualizarContrasena}>
                         <div className="input-group">
@@ -110,7 +114,8 @@ const RecuperarContrasena = () => {
                                 value={pin}
                                 onChange={(e) => setPin(e.target.value)}
                             />
-                            <span className="input-icon">🔑</span>
+                            <span className="input-icon"><FontAwesomeIcon icon={faKey} /></span>
+                            
                         </div>
                         <div className="input-group">
                             <input
@@ -121,7 +126,7 @@ const RecuperarContrasena = () => {
                                 onChange={(e) => setNewPassword(e.target.value)}
                                 autoComplete="new-password"
                             />
-                            <span className="input-icon">🔒</span>
+                            <span className="input-icon"><FontAwesomeIcon icon={faLock} /></span>
                         </div>
                         <div className="button-container">
                             <button type="submit">Actualizar Contraseña</button>

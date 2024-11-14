@@ -54,7 +54,7 @@
 }
   
   /* Estilos para la caja de recuperación de contraseña */
-  .forgot-password-box {
+.forgot-password-box {
     background: rgba(255, 255, 255, 0.8); /* Fondo blanco translúcido */
     padding: 30px;
     border-radius: 10px;
@@ -88,12 +88,7 @@
     margin-bottom: 15px;
   }
   
-  /* Estilos para los campos de entrada */
-  .input-group {
-    position: relative;
-    display: flex;
-    align-items: center;
-}
+
   
 .input-group input {
     width: 100%;

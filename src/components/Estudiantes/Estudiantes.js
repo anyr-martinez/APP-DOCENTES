@@ -3,7 +3,8 @@ import Header from '../Plantilla/Header';
 import SideNav from '../Plantilla/SideNav';
 import Home from '../Plantilla/Home';
 import Footer from '../Plantilla/Footer';
-const Estudiante = () => {
+
+const Estudiantes = () => {
     return (
         <div className="wrapper">
             <Header/>
@@ -14,4 +15,4 @@ const Estudiante = () => {
     );
 }
 
-export default Estudiante;
+export default Estudiantes;

@@ -5,6 +5,8 @@ import fondo from '../../../assets/images/fondo.jpg';
 import '../../Styles/Login/RecuperarContrasena.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLock, faEnvelope, faKey} from '@fortawesome/free-solid-svg-icons';
+import { UsuarioActualizarContrasena, UsuarioRecuperarContrasena } from '../../Configuracion/ApiUrls';
+import { AxiosPublico } from '../../Axios/Axios';
 
 const RecuperarContrasena = () => {
     const [recoveryEmail, setRecoveryEmail] = useState('');
@@ -24,7 +26,7 @@ const RecuperarContrasena = () => {
         }
 
         try {
-            const response = await axios.post('https://0zqb1tjz-3002.use.devtunnels.ms/api/usuarios/recuperar_contrasena', {
+            const response = await AxiosPublico.post(UsuarioRecuperarContrasena, {
                 email: recoveryEmail,
             });
 
@@ -56,7 +58,7 @@ const RecuperarContrasena = () => {
         }
 
         try {
-            const response = await axios.post('https://0zqb1tjz-3002.use.devtunnels.ms/api/usuarios/actualizar_contrasena', {
+            const response = await AxiosPublico.post(UsuarioActualizarContrasena, {
                 email: recoveryEmail,
                 contrasena: newPassword,
                 pin,

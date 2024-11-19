@@ -297,7 +297,7 @@ const SideNav = () => {
           <a href="pages/calendar.html" className="nav-link">
             <i className="nav-icon far fa-calendar-alt" />
             <p>
-              Calendar
+              Estudiantes
               <span className="badge badge-info right">2</span>
             </p>
           </a>

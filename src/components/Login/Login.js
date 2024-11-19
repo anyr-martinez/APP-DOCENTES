@@ -5,6 +5,8 @@ import fondo from '../../assets/images/fondo.jpg';
 import '../Styles/Login/Login.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLock, faEnvelope} from '@fortawesome/free-solid-svg-icons';
+import {UsuarioIniciarSesion} from '../Configuracion/ApiUrls';
+import {AxiosPublico} from '../Axios/Axios';
 
 
 const Login = () => {
@@ -29,7 +31,7 @@ const Login = () => {
         }
 
         try {
-            const response = await axios.post('https://0zqb1tjz-3002.use.devtunnels.ms/api/usuarios/iniciar_sesion', {
+            const response = await AxiosPublico.post( UsuarioIniciarSesion, {
                 login: email,
                 contrasena: password,
             });

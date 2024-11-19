@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import fondo from '../../../assets/images/fondo.jpg';   
-import '../../Styles/RecuperarContrasena.css';
+import '../../Styles/Login/RecuperarContrasena.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLock, faEnvelope, faKey} from '@fortawesome/free-solid-svg-icons';
 

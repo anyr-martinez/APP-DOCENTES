@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import fondo from '../../assets/images/fondo.jpg';
-import '../Styles/Login.css';
+import '../Styles/Login/Login.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLock, faEnvelope} from '@fortawesome/free-solid-svg-icons';
 

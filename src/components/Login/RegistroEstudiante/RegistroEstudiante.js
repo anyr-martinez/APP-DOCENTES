@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import fondo from '../../../assets/images/fondo.jpg';
-import '../../Styles/RegistroEstudiante.css';
+import '../../Styles/Login/RegistroEstudiante.css';
 
 const RegistroEstudiante = () => {
     const [formData, setFormData] = useState({

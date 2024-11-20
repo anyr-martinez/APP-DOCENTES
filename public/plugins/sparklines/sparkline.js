@@ -1,14 +1,9 @@
 (function (root, factory) {
   if (typeof define === 'function' && define.amd) {
-    // AMD. Register as an anonymous module.
     define(factory);
   } else if (typeof exports === 'object') {
-    // Node. Does not work with strict CommonJS, but
-    // only CommonJS-like enviroments that support module.exports,
-    // like Node.
     module.exports = factory();
   } else {
-    // Browser globals (root is window)
     root.Sparkline = factory();
   }
 }(window, function () {
@@ -21,12 +16,18 @@
   }
 
   function Sparkline(element, options) {
+    if (!element) {
+      throw new Error('Element is undefined or null');
+    }
     this.element = element;
     this.options = extend(options || {}, Sparkline.options);
 
     init: {
       this.element.innerHTML = "<canvas></canvas>";
-      this.canvas = this.element.firstChild;
+      this.canvas = this.element.querySelector("canvas");
+      if (!this.canvas) {
+        throw new Error('Canvas element could not be created');
+      }
       this.context = this.canvas.getContext("2d");
       this.ratio = window.devicePixelRatio || 1;
 

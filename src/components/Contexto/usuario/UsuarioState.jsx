@@ -1,22 +1,27 @@
-import React, {useEffect, useReducer, useState} from 'react';
-import {UsuarioContext} from '../usuario/UsuarioContext';
-import {useSessionStorage} from '../usuario/UsuarioContext';
+import React from 'react';
+import { UsuarioContext } from '../usuario/UsuarioContext';
+import { useSessionStorage } from '../storage/useSessionStorage';
 
-const UsuarioState = (props) =>{    
+const UsuarioState = (props) => {
     const [usuario, setUsuario] = useSessionStorage("usuario", null);
-    const [token, setToken] = useSessionStorage("toke_almacenado",null);
-    const setCerrarSesion = ()=>{
+    const [token, setToken] = useSessionStorage("token_almacenado", null);
+
+    const setCerrarSesion = () => {
         setUsuario(null);
         setToken(null);
-    }
-    const setLogin = async (data)=>{
-        try{
+        window.sessionStorage.removeItem("usuario");
+        window.sessionStorage.removeItem("token_almacenado");
+    };
+
+    const setLogin = async (data) => {
+        try {
             setUsuario(data.usuario);
             setToken(data.token);
-        } catch (error){
+        } catch (error) {
             console.log(error);
         }
-    }
+    };
+
     return (
         <UsuarioContext.Provider value={{
             usuario: usuario,
@@ -26,7 +31,7 @@ const UsuarioState = (props) =>{
         }}>
             {props.children}
         </UsuarioContext.Provider>
-    )
-}
+    );
+};
 
 export default UsuarioState;

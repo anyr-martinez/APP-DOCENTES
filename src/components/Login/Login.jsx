@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import fondo from '../../assets/images/fondo.jpg';
 import '../Styles/Login/Login.css';
@@ -7,19 +7,19 @@ import { faLock, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { UsuarioIniciarSesion } from '../Configuracion/ApiUrls';
 import { AxiosPublico } from '../Axios/Axios';
 import { mostraAlerta, mostraAlertaOK, mostraAlertaError } from '../SweetAlert/SweetAlert';
+import { UsuarioContext } from '../Contexto/usuario/UsuarioContext';
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
     const [error, setError] = useState('');
+    const { setLogin, setCerrarSesion } = useContext(UsuarioContext);
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
-        if (!token) {
-            navigate('/');
-        }
-    }, [navigate]);
+        // Al acceder a la página de inicio de sesión, cerrar sesión y eliminar el token
+        setCerrarSesion();
+    }, [setCerrarSesion]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -38,7 +38,7 @@ const Login = () => {
 
             if (response && response.data) {
                 const { Token, Usuario } = response.data;
-                localStorage.setItem('token', Token);
+                setLogin({ usuario: Usuario, token: Token });
 
                 if (Usuario.tipo === 'Estudiante') {
                     navigate('/dashboard-estudiante');

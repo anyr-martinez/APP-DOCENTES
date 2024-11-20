@@ -1,23 +1,18 @@
 import React from 'react';
-import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
-import Docente from './components/Docentes/Docentes';
-import Estudiantes from './components/Estudiantes/Estudiantes';
-import Login from './components/Login/Login';
-import RecuperarContrasena from './components/Login/RecuperarContrasena/RecuperarContrasena';
-import RegistroEstudiante from './components/Login/RegistroEstudiante/RegistroEstudiante';
+import {routes} from './components/Rutas/routes';
+import {RouterProvider} from 'react-router-dom';
+import  UsuarioState from './components/Contexto/usuario/UsuarioState';
+import Modal from 'react-modal';
 
-const App = () => {
-  return (
-    <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}> 
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="recuperar-contrasena" element = {<RecuperarContrasena />} />
-          <Route path="/dashboard-estudiante" element={<Estudiantes />} />
-          <Route path="/registro-estudiante" element={<RegistroEstudiante />} />
-          <Route path="/dashboard-docente" element={<Docente />} />
-        </Routes>
-    </Router>
-  );
+// Definir el elemento 'app' de la aplicacion 
+Modal.setAppElement('#root');  
+function App(){
+  return(
+    <UsuarioState>
+      <RouterProvider router={routes}>
+      </RouterProvider>
+    </UsuarioState>
+  )
 }
 
 export default App;

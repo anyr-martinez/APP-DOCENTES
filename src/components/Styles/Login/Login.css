@@ -1,0 +1,118 @@
+/* Estilos para el contenedor principal */
+.login-container {
+  background-image: url('../../../assets/images/fondo.jpg'); /* Ruta de la imagen de fondo */
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+/* Estilos para la caja de login */
+.login-box {
+  background: rgba(255, 255, 255, 0.8); /* Fondo blanco translúcido */
+  padding: 50px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 400px; /* Limitar el ancho máximo */
+}
+
+/* Título de la caja de login */
+.login-box h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Estilos para el mensaje de error */
+.error-message {
+  color: red;
+  font-size: 20px;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+/* Estilos para los campos de entrada */
+.input-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-group input {
+  width: 100%;
+  padding-right: 40px; /* Asegúrate de que haya espacio suficiente para el icono */
+  border: 5px solid #ddd;
+  font-size: 16px;
+  outline: none;
+  background-color: #f9f9f9;
+}
+
+.login-box .input-group .input-icon {
+    position: absolute;
+    right: 20px; /* Prueba con un valor mayor, como 20px o 25px */
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: #333;
+}
+
+.input-group input:focus {
+  border-color: #007bff;
+  background-color: #ffffff;
+}
+
+/* Estilos para los iconos dentro de los campos de entrada */
+.input-icon {
+  position: absolute;
+  right: 50px; /* Cambia 10px a 20px o un valor mayor */
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  color: #333;
+}
+
+/* Estilos para el contenedor de botones */
+.button-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* Estilo para el botón de iniciar sesión */
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Estilos para el enlace de "Olvidé la contraseña" */
+.or-separator {
+  margin: 15px 0;
+  text-align: center;
+  font-size: 14px;
+  color: #888;
+}
+
+button[type="button"] {
+  background-color: #6c757d;
+  width: 100%;
+}
+
+button[type="button"]:hover {
+  background-color: #5a6268;
+}

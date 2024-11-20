@@ -2,7 +2,9 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import fondo from '../../../assets/images/fondo.jpg';
-import '../../Styles/RegistroEstudiante.css';
+import '../../Styles/Login/RegistroEstudiante.css';
+import {ListarCarreras, CrearEstudiante} from '../../Configuracion/ApiUrls';
+import { AxiosPublico } from '../../Axios/Axios';
 
 const RegistroEstudiante = () => {
     const [formData, setFormData] = useState({
@@ -24,7 +26,7 @@ const RegistroEstudiante = () => {
         // Cargar la lista de carreras desde el servidor
         const fetchCarreras = async () => {
             try {
-                const response = await axios.get('https://0zqb1tjz-3002.use.devtunnels.ms/api/carreras/listar');
+                const response = await AxiosPublico.get(ListarCarreras);
                 console.log('Respuesta de la API:', response.data); // Log para verificar los datos
                 if (response.data && Array.isArray(response.data.datos)) {
                     setCarreras(response.data.datos);
@@ -69,7 +71,7 @@ const RegistroEstudiante = () => {
         };
 
         try {
-            const response = await axios.post('https://0zqb1tjz-3002.use.devtunnels.ms/api/estudiantes/guardar', formDataConId);
+            const response = await AxiosPublico.post(CrearEstudiante, formDataConId);
             
             if (response && response.data) {
                 setMessage('Estudiante guardado correctamente');

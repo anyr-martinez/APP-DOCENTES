@@ -1,0 +1,155 @@
+/* Estilos para el contenedor principal */
+.forgot-password-container {
+  background-image: url('../../../assets/images/fondo.jpg'); /* Ruta de la imagen de fondo */
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.email-container {
+  position: relative;
+  width: 100%;
+  height: 50px; /* Ajusta la altura según sea necesario */
+  border: 1px solid #ccc; /* Opcional: para visualizar el contenedor */
+  display: flex;
+  align-items: center;
+  padding: 0 10px; /* Opcional: para agregar espacio interno */
+  cursor: text; /* Cambia el cursor a texto cuando se pasa sobre el contenedor */
+}
+
+.email-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+  padding: 0 10px; /* Ajusta el padding según sea necesario */
+  box-sizing: border-box;
+  background: transparent; /* Asegura que el fondo sea transparente */
+  z-index: 1; /* Asegura que el input esté por encima del contenedor */
+}
+
+.email-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0; /* Asegura que el pseudo-elemento esté debajo del input */
+}
+
+.forgot-password-box {
+  background: rgba(255, 255, 255, 0.8); /* Fondo blanco translúcido */
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 400px; /* Limitar el ancho máximo */
+}
+  
+  /* Estilos para la caja de recuperación de contraseña */
+.forgot-password-box {
+    background: rgba(255, 255, 255, 0.8); /* Fondo blanco translúcido */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 400px; /* Limitar el ancho máximo */
+  }
+  
+  /* Título de la caja de recuperación de contraseña */
+  .forgot-password-box h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  /* Estilos para el mensaje de error */
+  .error-message {
+    color: red;
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 15px;
+  }
+  
+  /* Estilos para los mensajes de éxito */
+  .success-message {
+    color: green;
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 15px;
+  }
+  
+
+  
+.input-group input {
+    width: 100%;
+    padding-right: 40px; /* Asegúrate de que haya espacio suficiente para el icono */
+    border: 5px solid #ddd;
+    font-size: 16px;
+    outline: none;
+    background-color: #f9f9f9;
+}
+  
+.input-group input:focus {
+    border-color: #007bff;
+    background-color: #ffffff;
+}
+  
+  /* Estilos para los iconos dentro de los campos de entrada */
+  .input-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: #333;
+}
+  
+  /* Estilos para el contenedor de botones */
+  .button-container {
+    text-align: center;
+    margin-top: 20px;
+}
+  
+  /* Estilo para el botón de enviar/actualizar */
+  button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Estilos para el enlace "Volver al Login" */
+  .or-separator {
+    margin: 15px 0;
+    text-align: center;
+    font-size: 14px;
+    color: #888;
+  }
+  
+  button[type="button"] {
+    background-color: #6c757d;
+    width: 100%;
+  }
+  
+  button[type="button"]:hover {
+    background-color: #5a6268;
+  }
+  

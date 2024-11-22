@@ -1,15 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import fondo from "../../../assets/images/fondo.jpg";
-import { ListarCarreras, CrearEstudiante } from "../../Configuracion/ApiUrls";
-import { AxiosPublico } from "../../Axios/Axios";
+import { ListarCarreras} from "../../Configuracion/ApiUrls";
+import { CrearEstudiante } from '../../Configuracion/ApiUrls';
+
+import { AxiosPublico } from '../../Axios/Axios';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUser,
   faEnvelope,
   faLock,
   faUniversity,
+  faEye,
+  faEyeSlash,
 } from "@fortawesome/free-solid-svg-icons";
+import {
+  mostraAlerta,
+  mostraAlertaOK,
+  mostraAlertaError,
+} from "../../SweetAlert/SweetAlert";
+import zxcvbn from "zxcvbn";
 
 const RegistroEstudiante = () => {
   const [formData, setFormData] = useState({
@@ -19,23 +29,24 @@ const RegistroEstudiante = () => {
     segundoApellido: "",
     email: "",
     contrasena: "",
-    carreraNombre: "", // Cambiado a carreraNombre
+    confirmarContrasena: "",
+    carreraNombre: "",
   });
 
   const [carreras, setCarreras] = useState([]);
   const [error, setError] = useState("");
-  const [message, setMessage] = useState("");
+  const [message] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [passwordStrength, setPasswordStrength] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Cargar la lista de carreras desde el servidor
     const fetchCarreras = async () => {
       try {
         const response = await AxiosPublico.get(ListarCarreras);
-        console.log("Respuesta de la API:", response.data); // Log para verificar los datos
         if (response.data && Array.isArray(response.data.datos)) {
           setCarreras(response.data.datos);
-          console.log("Carreras cargadas:", response.data.datos); // Log para verificar los datos
         } else {
           console.error(
             "La respuesta del servidor no es un array:",
@@ -51,16 +62,25 @@ const RegistroEstudiante = () => {
   }, []);
 
   const handleChange = (e) => {
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
+
+    if (name === "contrasena") {
+      evaluatePasswordStrength(value);
+    }
+  };
+
+  const evaluatePasswordStrength = (password) => {
+    const strength = zxcvbn(password).score;
+    setPasswordStrength(strength);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    // Validar que todos los campos obligatorios estén completos
+  
     if (
       !formData.primerNombre ||
       !formData.primerApellido ||
@@ -68,44 +88,78 @@ const RegistroEstudiante = () => {
       !formData.contrasena ||
       !formData.carreraNombre
     ) {
-      setError("Por favor, complete todos los campos obligatorios.");
+      mostraAlerta(
+        "Por favor, complete todos los campos obligatorios.",
+        "warning"
+      );
       return;
     }
-
-    // Obtener el carreraId correspondiente al nombre de la carrera seleccionada
+  
+    if (formData.contrasena !== formData.confirmarContrasena) {
+      mostraAlerta(
+        "Las contraseñas no coinciden. Por favor, inténtelo de nuevo.",
+        "warning"
+      );
+      return;
+    }
+  
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      mostraAlerta(
+        "Ingrese un email valido. Por favor, inténtelo de nuevo.",
+        "warning"
+      );
+      return;
+    }
+  
     const carreraSeleccionada = carreras.find(
       (carrera) => carrera.nombre_carrera === formData.carreraNombre
     );
     if (!carreraSeleccionada) {
-      setError("Carrera no válida.");
+      mostraAlertaError(
+        "Carrera no valida. Por favor, inténtelo de nuevo.",
+        "error"
+      );
       return;
     }
-
+  
     const formDataConId = {
-      ...formData,
-      carreraId: carreraSeleccionada.id, // Añadir carreraId al formData
+      primerNombre: formData.primerNombre,
+      segundoNombre: formData.segundoNombre,
+      primerApellido: formData.primerApellido,
+      segundoApellido: formData.segundoApellido,
+      email: formData.email,
+      contrasena: formData.contrasena,
+      carreraId: carreraSeleccionada.id,
     };
-
+  
+    console.log("Datos enviados:", formDataConId); // Verifica los datos enviados
+  
+    setLoading(true);
     try {
       const response = await AxiosPublico.post(CrearEstudiante, formDataConId);
-
+  
       if (response && response.data) {
-        setMessage("Estudiante guardado correctamente");
+        mostraAlertaOK("Estudiante guardado correctamente", "success");
         setError("");
-        // Redirigir a otra página si es necesario
-        navigate("/dashboard-estudiante");
+        navigate("/");
       } else {
         setError(
           "Error al guardar el estudiante. Por favor, inténtelo de nuevo."
         );
-        console.error("Registro fallido: response data is undefined");
       }
     } catch (error) {
+      console.error("Error al guardar el estudiante:", error.response.data || error.response || error); // Más detalles del error
       setError(
         "Error al guardar el estudiante. Por favor, inténtelo de nuevo."
       );
-      console.error("Registro fallido:", error);
+    } finally {
+      setLoading(false);
     }
+  };
+
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -123,7 +177,7 @@ const RegistroEstudiante = () => {
         style={{
           maxWidth: "900px",
           width: "100%",
-          backgroundColor: "rgba(255, 255, 255, 0.75)", // Fondo blanco con opacidad
+          backgroundColor: "rgba(255, 255, 255, 0.75)",
         }}
       >
         <h2 className="text-center mb-4">Registro de Estudiante</h2>
@@ -131,7 +185,6 @@ const RegistroEstudiante = () => {
         {message && <p className="text-success text-center">{message}</p>}
         <form onSubmit={handleSubmit}>
           <div className="row">
-            {/* Primera columna */}
             <div className="col-md-6">
               <div className="form-group position-relative">
                 <input
@@ -215,7 +268,6 @@ const RegistroEstudiante = () => {
               </div>
             </div>
 
-            {/* Segunda columna */}
             <div className="col-md-6">
               <div className="form-group position-relative">
                 <input
@@ -239,13 +291,25 @@ const RegistroEstudiante = () => {
               </div>
               <div className="form-group position-relative">
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   className="form-control"
                   placeholder="Contraseña"
                   name="contrasena"
                   value={formData.contrasena}
                   onChange={handleChange}
                 />
+                <span
+                  className="position-absolute"
+                  style={{
+                    top: "50%",
+                    right: "40px",
+                    transform: "translateY(-50%)",
+                    cursor: "pointer",
+                  }}
+                  onClick={toggleShowPassword}
+                >
+                  <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+                </span>
                 <span
                   className="position-absolute"
                   style={{
@@ -257,6 +321,66 @@ const RegistroEstudiante = () => {
                   <FontAwesomeIcon icon={faLock} />
                 </span>
               </div>
+              <div className="form-group position-relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  className="form-control"
+                  placeholder="Confirmar Contraseña"
+                  name="confirmarContrasena"
+                  value={formData.confirmarContrasena}
+                  onChange={handleChange}
+                />
+                <span
+                  className="position-absolute"
+                  style={{
+                    top: "50%",
+                    right: "40px",
+                    transform: "translateY(-50%)",
+                    cursor: "pointer",
+                  }}
+                  onClick={toggleShowPassword}
+                >
+                  <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+                </span>
+                <span
+                  className="position-absolute"
+                  style={{
+                    top: "50%",
+                    right: "10px",
+                    transform: "translateY(-50%)",
+                  }}
+                >
+                  <FontAwesomeIcon icon={faLock} />
+                </span>
+              </div>
+              {formData.contrasena && (
+                <div className="form-group">
+                  <div className="progress">
+                    <div
+                      className={`progress-bar ${
+                        passwordStrength < 2
+                          ? "bg-danger"
+                          : passwordStrength < 4
+                          ? "bg-warning"
+                          : "bg-success"
+                      }`}
+                      role="progressbar"
+                      style={{ width: `${(passwordStrength + 1) * 20}%` }}
+                      aria-valuenow={(passwordStrength + 1) * 20}
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                    ></div>
+                  </div>
+                  <small className="form-text text-muted">
+                    {passwordStrength < 2
+                      ? "Contraseña débil"
+                      : passwordStrength < 4
+                      ? "Contraseña aceptable"
+                      : "Contraseña fuerte"}
+                  </small>
+                </div>
+              )}
+
               <div className="form-group position-relative">
                 <select
                   className="form-control"
@@ -285,14 +409,14 @@ const RegistroEstudiante = () => {
             </div>
           </div>
 
-          {/* Botones */}
           <div className="d-flex flex-column align-items-center">
             <button
               type="submit"
               className="btn btn-primary mb-2"
               style={{ width: "800px" }}
+              disabled={loading}
             >
-              Registrar
+              {loading ? "Registrando..." : "Registrar"}
             </button>
             <span className="text-muted mb-2">- OR -</span>
             <button

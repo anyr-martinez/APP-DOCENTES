@@ -28,7 +28,6 @@ const Login = () => {
     event.preventDefault();
 
     if (!email || !password) {
-      setError("Por favor, complete todos los campos.");
       mostraAlerta("Por favor, complete todos los campos.", "warning");
       return;
     }
@@ -54,9 +53,6 @@ const Login = () => {
         console.log("Login successful:", response.data);
         mostraAlertaOK("Inicio de sesión exitoso", "success");
       } else {
-        setError(
-          "Error en el inicio de sesión. Por favor, inténtelo de nuevo."
-        );
         console.error("Login failed: response data is undefined");
         mostraAlertaError(
           "Error en el inicio de sesión. Por favor, inténtelo de nuevo.",
@@ -67,7 +63,7 @@ const Login = () => {
       setError("Error en el inicio de sesión. Por favor, inténtelo de nuevo.");
       console.error("Login failed:", error);
       mostraAlertaError(
-        "Error en el inicio de sesión. Por favor, inténtelo de nuevo.",
+        "Contraseña o Correo electronico incorrecto. Por favor, inténtelo de nuevo.",
         "error"
       );
     }

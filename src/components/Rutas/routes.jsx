@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navigate, createBrowserRouter, createRoutesFromElements, Route } from 'react-router-dom';
+import {createBrowserRouter, createRoutesFromElements, Route } from 'react-router-dom';
 import Estudiantes from '../Estudiantes/Estudiantes';
 import Login from '../Login/Login';
 import RecuperarContrasena from '../Login/RecuperarContrasena/RecuperarContrasena';

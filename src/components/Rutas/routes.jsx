@@ -7,6 +7,7 @@ import RegistroEstudiante from '../Login/RegistroEstudiante/RegistroEstudiante';
 import Docente from '../Docentes/Docentes';
 import { AutenticacionRoute } from './AutenticacionRoute';
 import PageHome from '../Plantilla/PageHome';
+import MatriculaEstudiante from '../Login/MatriculaEstudiante/MatriculaEstudiante';
 
 export const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -26,6 +27,7 @@ export const routes = createBrowserRouter(
       } />
       <Route path="app/" element={<AutenticacionRoute />}>
         <Route path="home" element={<PageHome />} />
+        <Route path="matricula-estudiante" element={<MatriculaEstudiante />} /> {/* Nueva ruta */}
       </Route>
     </Route>
   )

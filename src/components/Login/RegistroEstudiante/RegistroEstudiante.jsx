@@ -56,21 +56,27 @@ const RegistroEstudiante = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-      // Validaciones para nombres y apellidos
-  if (
-    ["primerNombre", "segundoNombre", "primerApellido", "segundoApellido"].includes(name)
-  ) {
-    const regex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]*$/; // Solo letras y espacios
-    if (!regex.test(value)) {
-      mostraAlerta("Solo se permiten letras y espacios en este campo.", "warning");
-      return;
+    // Validaciones para nombres y apellidos
+    if (
+      [
+        "primerNombre",
+        "segundoNombre",
+        "primerApellido",
+        "segundoApellido",
+      ].includes(name)
+    ) {
+      const regex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]*$/; // Solo letras y espacios
+      if (!regex.test(value)) {
+        mostraAlerta(
+          "Solo se permiten letras y espacios en este campo.",
+          "warning"
+        );
+        return;
+      }
     }
-  }
     setFormData({ ...formData, [name]: value });
     if (name === "contrasena") evaluatePasswordStrength(value);
   };
-
-  
 
   const evaluatePasswordStrength = (password) => {
     const strength = zxcvbn(password).score;
@@ -94,12 +100,15 @@ const RegistroEstudiante = () => {
       return;
     }
 
-      // Validar contraseña
-  if (formData.contrasena.length < 6) {
-    mostraAlerta("La contraseña debe tener al menos 6 caracteres.", "warning");
-    return;
-  }
-  
+    // Validar contraseña
+    if (formData.contrasena.length < 6) {
+      mostraAlerta(
+        "La contraseña debe tener al menos 6 caracteres.",
+        "warning"
+      );
+      return;
+    }
+
     if (formData.contrasena !== formData.confirmarContrasena) {
       mostraAlerta(
         "Las contraseñas no coinciden. Por favor, inténtelo de nuevo.",
@@ -107,8 +116,6 @@ const RegistroEstudiante = () => {
       );
       return;
     }
-
-
 
     const carreraSeleccionada = carreras.find(
       (carrera) => carrera.nombre_carrera === formData.carreraNombre
@@ -135,9 +142,10 @@ const RegistroEstudiante = () => {
     try {
       const response = await AxiosPublico.post(CrearEstudiante, formDataConId);
       if (response.data && response.data.id) {
-        
         mostraAlertaOK("Estudiante guardado correctamente", "success");
-        navigate("/registro-matricula", {state:{ estudianteId: response.data.id }});
+        navigate("/registro-matricula", {
+          state: { estudianteId: response.data.id },
+        });
       } else {
         setError(
           "Error al guardar el estudiante. Por favor, inténtelo de nuevo."
@@ -147,11 +155,9 @@ const RegistroEstudiante = () => {
       console.error("Error al guardar el estudiante:", error);
       setError(
         "Error al guardar el estudiante. Por favor, inténtelo de nuevo."
-        
       );
       console.log("Carrera ID: ", carreraSeleccionada.id);
-      console.log("Carrera ID: ", carreraSeleccionada.id)
-
+      console.log("Carrera ID: ", carreraSeleccionada.id);
     } finally {
       setLoading(false);
     }

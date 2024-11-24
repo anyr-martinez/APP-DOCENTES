@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import fondo from "../../../assets/images/fondo.jpg";
-import { ListarCarreras} from "../../Configuracion/ApiUrls";
-import { CrearEstudiante } from '../../Configuracion/ApiUrls';
-
-import { AxiosPublico } from '../../Axios/Axios';
+import { ListarCarreras, CrearEstudiante } from "../../Configuracion/ApiUrls";
+import { AxiosPublico } from "../../Axios/Axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUser,
@@ -32,10 +30,10 @@ const RegistroEstudiante = () => {
     confirmarContrasena: "",
     carreraNombre: "",
   });
-
   const [carreras, setCarreras] = useState([]);
-  const [error, setError] = useState("");
   const [message] = useState("");
+  const [estudianteId] = useState(null); // Estado para el ID
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [passwordStrength, setPasswordStrength] = useState(0);
@@ -47,31 +45,32 @@ const RegistroEstudiante = () => {
         const response = await AxiosPublico.get(ListarCarreras);
         if (response.data && Array.isArray(response.data.datos)) {
           setCarreras(response.data.datos);
-        } else {
-          console.error(
-            "La respuesta del servidor no es un array:",
-            response.data
-          );
         }
       } catch (error) {
         console.error("Error al cargar las carreras:", error);
       }
     };
-
     fetchCarreras();
   }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
 
-    if (name === "contrasena") {
-      evaluatePasswordStrength(value);
+      // Validaciones para nombres y apellidos
+  if (
+    ["primerNombre", "segundoNombre", "primerApellido", "segundoApellido"].includes(name)
+  ) {
+    const regex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]*$/; // Solo letras y espacios
+    if (!regex.test(value)) {
+      mostraAlerta("Solo se permiten letras y espacios en este campo.", "warning");
+      return;
     }
+  }
+    setFormData({ ...formData, [name]: value });
+    if (name === "contrasena") evaluatePasswordStrength(value);
   };
+
+  
 
   const evaluatePasswordStrength = (password) => {
     const strength = zxcvbn(password).score;
@@ -80,7 +79,7 @@ const RegistroEstudiante = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
+
     if (
       !formData.primerNombre ||
       !formData.primerApellido ||
@@ -94,6 +93,12 @@ const RegistroEstudiante = () => {
       );
       return;
     }
+
+      // Validar contraseña
+  if (formData.contrasena.length < 6) {
+    mostraAlerta("La contraseña debe tener al menos 6 caracteres.", "warning");
+    return;
+  }
   
     if (formData.contrasena !== formData.confirmarContrasena) {
       mostraAlerta(
@@ -102,27 +107,20 @@ const RegistroEstudiante = () => {
       );
       return;
     }
-  
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(formData.email)) {
-      mostraAlerta(
-        "Ingrese un email valido. Por favor, inténtelo de nuevo.",
-        "warning"
-      );
-      return;
-    }
-  
+
+
+
     const carreraSeleccionada = carreras.find(
       (carrera) => carrera.nombre_carrera === formData.carreraNombre
     );
     if (!carreraSeleccionada) {
       mostraAlertaError(
-        "Carrera no valida. Por favor, inténtelo de nuevo.",
+        "Carrera no válida. Por favor, inténtelo de nuevo.",
         "error"
       );
       return;
     }
-  
+
     const formDataConId = {
       primerNombre: formData.primerNombre,
       segundoNombre: formData.segundoNombre,
@@ -132,35 +130,34 @@ const RegistroEstudiante = () => {
       contrasena: formData.contrasena,
       carreraId: carreraSeleccionada.id,
     };
-  
-    console.log("Datos enviados:", formDataConId); // Verifica los datos enviados
-  
+
     setLoading(true);
     try {
       const response = await AxiosPublico.post(CrearEstudiante, formDataConId);
-  
-      if (response && response.data) {
+      if (response.data && response.data.id) {
+        
         mostraAlertaOK("Estudiante guardado correctamente", "success");
-        setError("");
-        navigate("/");
+        navigate("/registro-matricula", {state:{ estudianteId: response.data.id }});
       } else {
         setError(
           "Error al guardar el estudiante. Por favor, inténtelo de nuevo."
         );
       }
     } catch (error) {
-      console.error("Error al guardar el estudiante:", error.response.data || error.response || error); // Más detalles del error
+      console.error("Error al guardar el estudiante:", error);
       setError(
         "Error al guardar el estudiante. Por favor, inténtelo de nuevo."
+        
       );
+      console.log("Carrera ID: ", carreraSeleccionada.id);
+      console.log("Carrera ID: ", carreraSeleccionada.id)
+
     } finally {
       setLoading(false);
     }
   };
 
-  const toggleShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
+  const toggleShowPassword = () => setShowPassword(!showPassword);
 
   return (
     <div
@@ -172,6 +169,11 @@ const RegistroEstudiante = () => {
         height: "100vh",
       }}
     >
+      {estudianteId && (
+        <div className="alert alert-success text-center">
+          Estudiante registrado con ID: {estudianteId}
+        </div>
+      )}
       <div
         className="registro-estudiante-box p-4 rounded shadow"
         style={{

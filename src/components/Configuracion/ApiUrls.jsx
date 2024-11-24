@@ -6,3 +6,6 @@ export const CrearEstudiante = 'estudiantes/guardar';
 export const CrearDocente = 'docentes/guardar';
 export const ImagenEstudiante = 'imagen/estudiante';
 export const ListarCarreras = 'carreras/listar';
+export const ListarAsignaturas = 'asignaturas/listar';
+export const ListarPeriodos = 'periodos/listar';
+export const CrearMatricula = 'matriculas/guardar';

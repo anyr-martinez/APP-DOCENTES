@@ -15,6 +15,7 @@ export const routes = createBrowserRouter(
       <Route path="/" element={<Login />} />
       <Route path="recuperar-contrasena" element={<RecuperarContrasena />} />
       <Route path="/registro-estudiante" element={<RegistroEstudiante />} />
+      <Route path="/registro-matricula" element={<MatriculaEstudiante />} />
       <Route path="/dashboard-estudiante" element={
         <AutenticacionRoute>
           <Estudiantes />
@@ -27,7 +28,6 @@ export const routes = createBrowserRouter(
       } />
       <Route path="app/" element={<AutenticacionRoute />}>
         <Route path="home" element={<PageHome />} />
-        <Route path="matricula-estudiante" element={<MatriculaEstudiante />} /> {/* Nueva ruta */}
       </Route>
     </Route>
   )

@@ -10,48 +10,58 @@ import {
   mostraAlertaOK,
   mostraAlertaError,
 } from "../SweetAlert/SweetAlert";
-import { UsuarioContext } from "../Contexto/usuario/UsuarioContext";
+import { UsuarioContext } from "../Contexto/usuario/UsuarioContext"; // Asegúrate de que la ruta sea correcta
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const [error, setError] = useState("");
-  const { setLogin, setCerrarSesion, setNombre } = useContext(UsuarioContext);
-  const [nombre_usuario, setNombreUsuario] = useState(null);
+  const { setLogin } = useContext(UsuarioContext); // Acceder al contexto de Usuario
 
   useEffect(() => {
     // Al acceder a la página de inicio de sesión, cerrar sesión y eliminar el token
-    setCerrarSesion();
-  }, [setCerrarSesion]);
+    // Esto asegura que cualquier usuario anterior que estaba logueado se cierre sesión automáticamente.
+    setLogin({ usuario: null, token: null }); // Reseteamos el estado
+  }, [setLogin]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+  
     if (!email || !password) {
       mostraAlerta("Por favor, complete todos los campos.", "warning");
       return;
     }
-
+  
     try {
       const response = await AxiosPublico.post(UsuarioIniciarSesion, {
         login: email,
         contrasena: password,
       });
-
+  
       if (response && response.data) {
         const { Token, Usuario } = response.data;
-        setLogin({ usuario: Usuario, token: Token });
-        setNombre(Usuario.nombre);
-
+  
+        // Guardar los datos relevantes del usuario
+        setLogin({ 
+          usuario: {
+            primerNombre: Usuario.primerNombre,
+            primerApellido: Usuario.primerApellido,
+            tipo: Usuario.tipo,
+            login: Usuario.login, // Guardamos el nombre completo aquí
+          }, 
+          token: Token 
+        });
+  
+        // Redirigir según el tipo de usuario
         if (Usuario.tipo === "Estudiante") {
-          navigate("/dashboard-estudiante", { state: { nombre: Usuario.nombre}});
+          navigate("/dashboard-estudiante");
         } else if (Usuario.tipo === "Docente") {
           navigate("/dashboard-docente");
         } else {
           navigate("/dashboard");
         }
-
+  
         console.log("Login successful:", response.data);
         mostraAlertaOK("Inicio de sesión exitoso", "success");
       } else {
@@ -65,7 +75,7 @@ const Login = () => {
       setError("Error en el inicio de sesión. Por favor, inténtelo de nuevo.");
       console.error("Login failed:", error);
       mostraAlertaError(
-        "Contraseña o Correo electronico incorrecto. Por favor, inténtelo de nuevo.",
+        "Contraseña o Correo electrónico incorrecto. Por favor, inténtelo de nuevo.",
         "error"
       );
     }

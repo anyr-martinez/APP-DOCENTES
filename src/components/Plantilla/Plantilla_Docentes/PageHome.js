@@ -4,18 +4,15 @@ import SideNav from '../Plantilla/SideNav';
 import Home from '../Plantilla/Home';
 import Footer from '../Plantilla/Footer';
 
-
-
-
-const Estudiantes = () => {
+const PageHome = () => {
     return (
         <div className="wrapper">
             <Header/>
             <Home/>
             <SideNav/>
-            <Footer/>          
+            <Footer/>
         </div>
     );
 }
 
-export default Estudiantes;
+export default PageHome;

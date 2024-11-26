@@ -17,7 +17,8 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const [error, setError] = useState("");
-  const { setLogin, setCerrarSesion } = useContext(UsuarioContext);
+  const { setLogin, setCerrarSesion, setNombre } = useContext(UsuarioContext);
+  const [nombre_usuario, setNombreUsuario] = useState(null);
 
   useEffect(() => {
     // Al acceder a la página de inicio de sesión, cerrar sesión y eliminar el token
@@ -41,9 +42,10 @@ const Login = () => {
       if (response && response.data) {
         const { Token, Usuario } = response.data;
         setLogin({ usuario: Usuario, token: Token });
+        setNombre(Usuario.nombre);
 
         if (Usuario.tipo === "Estudiante") {
-          navigate("/dashboard-estudiante");
+          navigate("/dashboard-estudiante", { state: { nombre: Usuario.nombre}});
         } else if (Usuario.tipo === "Docente") {
           navigate("/dashboard-docente");
         } else {
